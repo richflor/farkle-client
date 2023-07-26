@@ -1,0 +1,151 @@
+const socket = io("https://swamp-sweltering-paint.glitch.me/")
+
+//-------------------------------------------------------
+
+socket.on('connection',()=>{
+    //je n'utilise pas l'evenement de connection 
+})
+
+//-------------------------------------------------------
+
+socket.on('disconnect',(err)=>{
+    // ici tu peux crée la logique pour dire au client qu'il à été déco 
+})
+
+//-------------------------------------------------------
+
+//useEffect(()=>{ dans le composant ou tu commence ce useEffect servira à verifier qui es cette persone et dans quelle game elle veut jouer
+    socket.emit("loginEvent", {
+        name: playerName, //string
+        roomId: roomId, // string de nombre
+    });
+//},[])
+
+//-------------------------------------------------------
+
+socket.emit("clientIsReady"); // si on appui sur pret on signifie que on est pret au server
+
+//-------------------------------------------------------
+
+//socket.emit('responseLogin',{state:false,reason:1}) <---- event in server 
+//state boolean false = err ; true = good;
+//reason number 
+// 0 = good ; 
+// 1 = userName already choose ;
+// 2 = no more slot in game ;
+// 3 = sa sa existe pas lol ;
+// 4 = you are too late game already launch
+
+socket.on('responseLogin',(/*{state:true,reason:0}*/)=>{
+    // en fonction du state et de reason tu es libre de crée t composant pour orienté le mec dans le jeu ou en err
+})
+
+//-------------------------------------------------------
+
+//socket.emit('gameWin',({reason:0}) <------ event in server
+//socket.emit('gameWin',({reason:1,payload:{objOfWinner}}) <------ event in server
+/* objOfWinner = {
+    idRoom              : data.roomId,
+    ready2play          : false,
+    currentScore        : 0,
+    scoreTotal          : 0,
+    myTurn              : false,
+    isAlive             : true,
+    name                : data.name,
+    position            : farkelRoom[data.roomId].nbUserInRoom,
+    canPlay             : false,
+    nbDice              : nbDice,
+    remainingDices     : [],
+    scoringDices        : [],
+} */
+
+socket.on("gameWin", (data) => {
+    // si data.reason = 0 alors tous le monde à quité, donc le dernier est le gagnant (garde les info nameUser pour l'afficher dans une modal )
+    // si data.reason = 1 alors je t'envois l'objet ci dessus data.payload = objOfWinner qui contient toute info du gagnat pour le déclare au autres
+})
+
+//-------------------------------------------------------
+
+socket.on("loseThisOne", () =>  console.log("lose")/*fais ce que tu veut mais en tous cas sa va réagire à l'echec de la personne qui joue*/);
+
+//-------------------------------------------------------
+
+socket.on("oneMoreTime", () => console.log("Vous pouvez continue à jouer") /* si il te reste un tour */);
+
+//-------------------------------------------------------
+
+// la c dure je t'envois sa à chaque fois que quelq'un dans la partie fais une action il faut que tu iter dans un objet ;) 
+// pour récupérer les users il faut que tu filtre (en retirant ) inGame ,nbUserReady, nbUserInRoom, selectPositionInGame
+         
+/* 
+{   ROOM
+    {   USER 1
+        idRoom              : data.roomId,
+        ready2play          : false,
+        currentScore        : 0,
+        scoreTotal          : 0,
+        myTurn              : false,
+        isAlive             : true,
+        name                : data.name,
+        position            : farkelRoom[data.roomId].nbUserInRoom,
+        canPlay             : false,
+        nbDice              : nbDice,
+        remainingDices      : [],
+        scoringDices        : [],
+    },
+
+    {   USER 2
+        idRoom              : data.roomId,
+        ready2play          : false,
+        currentScore        : 0,
+        scoreTotal          : 0,
+        myTurn              : false,
+        isAlive             : true,
+        name                : data.name,
+        position            : farkelRoom[data.roomId].nbUserInRoom,
+        canPlay             : false,
+        nbDice              : nbDice,
+        remainingDices      : [],
+        scoringDices        : [],
+    },
+
+    {   USER 3
+        idRoom              : data.roomId,
+        ready2play          : false,
+        currentScore        : 0,
+        scoreTotal          : 0,
+        myTurn              : false,
+        isAlive             : true,
+        name                : data.name,
+        position            : farkelRoom[data.roomId].nbUserInRoom,
+        canPlay             : false,
+        nbDice              : nbDice,
+        remainingDices      : [],
+        scoringDices        : [],
+    },  
+    
+        ROOM CARACTÉRISTIC 
+        selectPositionInGame    : 1, // C'est au tour du USER 1 
+        nbUserInRoom            : 1, // how many user in room
+        inGame                  : false, //es ce que on est en game (tous le monde est pret)
+        nbUserReady             : 0 // user ready
+    }
+} 
+
+*/
+socket.on("refreshListStatus", updatePlayerSection);
+
+//-------------------------------------------------------
+
+
+// si c'est son tour avec USER.myTurn == true 
+// on peut faire un choix state = false = rendre le tour; state = true = jouer
+socket.emit("myChoice", {
+    state: false
+});
+
+socket.emit("myChoice", {
+    state: true
+});
+
+//-------------------------------------------------------
