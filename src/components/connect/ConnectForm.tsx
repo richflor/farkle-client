@@ -3,19 +3,24 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import { connect, checkLength} from '../../farkle'
+import { checkLength} from '../../farkle'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoginInfo } from '../../store/userSlice'
+import { login } from '../../store/userSlice'
+import { AppDispatch, RootState } from '../../store/store'
 
 export default function ConnectForm () {
 
-  const dispatchUser = useDispatch();
+  const dispatchUser = useDispatch<AppDispatch>();
 
   const [userName, setUsername] = useState<string>("");
   const [roomName, setRoom] = useState<string>("");
   const setState = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, callback:Function) => {
     callback(e.target.value)
   }
+
+  const user = useSelector((state:RootState)=> state.user)
+
+  console.log(user)
 
   return (
     <Stack
@@ -40,8 +45,7 @@ export default function ConnectForm () {
           if ((checkLength(userName) && checkLength(roomName)) === false ) {
             alert("Nom et Room doivent faire 3 lettres ou plus");
           } else {
-            // connect(dispatch, socket, {name:userName, roomId:roomName})
-            dispatchUser(setLoginInfo({
+            dispatchUser(login({
               name: userName,
               roomId: roomName,
             }))

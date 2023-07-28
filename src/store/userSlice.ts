@@ -2,39 +2,40 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginInfo, loginResponse, socketPayload } from "../models/SocketIo";
 import { Socket } from "socket.io-client";
 import { socketEvents } from "../models/SocketIo";
+import { thunkApi } from "./store";
 
 // if connected on va sur la page game
+
+interface User {
+    value:loginInfo,
+    connected:boolean,
+    error:null|number
+}
+
 const initUser = {
     value: {
         name: "",
         roomId: ""
-    } as loginInfo,
+    },
     status: "",
-    connected: false
+    connected: false,
+    error: null
 }
-const SERVER_URL:string = import.meta.env.VITE_SERVER_URL;
-// const socket = io(SERVER_URL);
 
-export const connectToServer = createAsyncThunk("connectToServer", async (socket:Socket) => {
-    socket.on(socketEvents.connectToServer, () => {
-        console.log("is connected to socket")
-    });
-    socket.on(socketEvents.connectError, err => {
-        console.log(err);
-        // socket.connect();
-        throw err;
-    })
-    socket.on(socketEvents.disconnect, reason => console.log(reason))
-})
+const SERVER_URL: string = import.meta.env.VITE_SERVER_URL;
 
-export const login = createAsyncThunk("login", async (socket:Socket, payload:socketPayload ) => {
-    return new Promise<loginResponse>((resolve, reject) => {
-        socket.emit(socketEvents.login, payload);
-        let res:number;
+export const login = createAsyncThunk<User, loginInfo, thunkApi>("login", async (user:loginInfo, thunkApi) => {
+    return new Promise<User>((resolve, reject) => {
+        const socket:Socket = thunkApi.extra.socket
+        socket.on("connect", () => {
+            console.log("is connected to socket")
+        });
+        socket.emit(socketEvents.login, user);
+        let err:number;
         socket.on(socketEvents.responseLogin, (payload:loginResponse) => {
-            res = payload.reason;
-            if (res !== 0) reject(res);
-            resolve(payload);
+            err = payload.reason;
+            if (err !== 0) reject(err);
+            resolve({value: user, connected:payload.state, error:payload.reason });
         })
     })
 })
@@ -58,7 +59,8 @@ const userSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action)=> {
                 state.status = "succeeded";
-                state.connected = action.payload.state;
+                state.connected = action.payload.connected;
+                state.value = action.payload.value;
             })
             .addCase(login.rejected, (state, action)=> {
                 state.status = "failed";
@@ -67,6 +69,6 @@ const userSlice = createSlice({
     },
 })
 
-export const { setLoginInfo, unsetLogoutInfo } = userSlice.actions;
+// export const { setLoginInfo, unsetLogoutInfo } = userSlice.actions;
 
 export const userReducer = userSlice.reducer

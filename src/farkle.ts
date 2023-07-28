@@ -1,4 +1,3 @@
-import { setLoginInfo } from "./store/userSlice";
 import { useDispatch, useSelector } from 'react-redux'
 import { loginInfo } from "./models/SocketIo";
 import { farkleSocket } from "./farkleSocket";
@@ -9,14 +8,14 @@ import { Socket } from "socket.io-client";
 // const socket = useSelector((state:any)=> state.socket)
 
 export const checkLength = ((value: string): boolean => {
-  if (value.length > 3) return true
+  if (value.length >= 3) return true
   return false
 })
 
-export const connect = (dispatch:any, socket:any, { name, roomId }: loginInfo) => {
-  dispatch(setLoginInfo({
-    name: name,
-    roomId: roomId,
-  }))
-  farkleSocket.login(socket, { name, roomId })
-}
+// export const connect = (dispatch:any, socket:any, { name, roomId }: loginInfo) => {
+//   dispatch(setLoginInfo({
+//     name: name,
+//     roomId: roomId,
+//   }))
+//   farkleSocket.login(socket, { name, roomId })
+// }

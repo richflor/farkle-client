@@ -9,10 +9,10 @@ export default function Connect () {
   
   const user = useSelector((state:RootState)=> state.user.value)
   const navigate = useNavigate()
-  console.log(user)
-  if (user.name !== ""){
-    navigate("/game");
-  }
+  // console.log(user)
+  // if (user.name !== ""){
+  //   navigate("/game");
+  // }
 
   // useEffect(()=> {
   //   navigate("/game");
