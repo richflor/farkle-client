@@ -4,9 +4,10 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { checkLength} from '../../farkle'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../store/userSlice'
-import { AppDispatch, RootState } from '../../store/store'
+import { useDispatch } from 'react-redux'
+import { socketLogin } from '../../store/userSlice'
+import { AppDispatch } from '../../store/store'
+import { socketUserReady } from '../../slicers/gameSlice'
 
 export default function ConnectForm () {
 
@@ -18,9 +19,16 @@ export default function ConnectForm () {
     callback(e.target.value)
   }
 
-  const user = useSelector((state:RootState)=> state.user)
-
-  console.log(user)
+  const login = (username:string, room:string) => {
+    if ((checkLength(username) && checkLength(room)) === false ) {
+      alert("Nom et Room doivent faire 3 lettres ou plus");
+    } else {
+      dispatchUser(socketLogin({
+        name: username,
+        roomId: room,
+      }))
+    }
+  }
 
   return (
     <Stack
@@ -41,16 +49,7 @@ export default function ConnectForm () {
       <Button 
         variant="contained" 
         color="primary"
-        onClick={()=> {
-          if ((checkLength(userName) && checkLength(roomName)) === false ) {
-            alert("Nom et Room doivent faire 3 lettres ou plus");
-          } else {
-            dispatchUser(login({
-              name: userName,
-              roomId: roomName,
-            }))
-          }
-        }}>
+        onClick={()=> login(userName, roomName)}>
         <Typography variant="body1" color="white">Rejoindre une partie</Typography>
       </Button>
     </Stack> 

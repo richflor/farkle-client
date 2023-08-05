@@ -2,3 +2,99 @@
     font-family: "Roboto";
     box-sizing: border-box
 }
+
+/* classes for Ready button */
+
+.playerStatus {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 0.84em;
+    color: #313131;
+    background: #8d8d8d6c;
+    padding: 5px 14px;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.bgGreen {
+    background: #3fb63f !important;
+    color: white;
+    transform: scale(0.68);
+    position: absolute;
+    right: -6px;
+    top: -7px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.nohover {
+    transition: 0.15s;
+    cursor: default;
+}
+
+.nohover:hover {
+    background-color: #8d8d8d6c;
+    cursor: default;
+}
+
+.scaleInOut {
+    animation: scaleInOut 1s infinite;
+    transition: background-color 0.3s;
+
+}
+
+.scaleInOut:hover {
+    cursor: pointer;
+
+    background: #37b294
+}
+
+.scaleInOut2 {
+    animation: scaleInOut2 1s infinite;
+    transition: background-color 0.3s;
+}
+
+.scaleInOut2:hover {
+    cursor: pointer;
+
+    background: #3fb63f69;
+}
+
+@keyframes scaleInOut {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.93);
+        outline: 3px solid #7237d0;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+@keyframes scaleInOut2 {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.95);
+        outline: 2px solid #7237d039;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}

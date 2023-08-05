@@ -1,14 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./userSlice";
 import { socketReducer } from "./socketSlice";
+import { socketEvents } from "../models/SocketIo";
 import { Socket, io } from "socket.io-client";
+import { gameReducer } from "../slicers/gameSlice";
 
 const SERVER_URL:string = import.meta.env.VITE_SERVER_URL;
 const socket = io(SERVER_URL);
+socket.on(socketEvents.connectToServer, () => {
+  console.log("is connected to socket");
+});
+
+socket.on(socketEvents.connectError, (e) => {
+  console.log("error connection socket : "+ e);
+});
 
 export const store = configureStore({
     reducer: {
-        user: userReducer
+        user: userReducer,
+        game: gameReducer
     },
     middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

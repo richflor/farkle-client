@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginInfo, loginResponse, socketPayload } from "../models/SocketIo";
-import { Socket } from "socket.io-client";
+import { loginInfo, loginResponse } from "../models/SocketIo";
 import { socketEvents } from "../models/SocketIo";
 import { thunkApi } from "./store";
 
@@ -16,25 +15,22 @@ const initUser = {
     value: {
         name: "",
         roomId: ""
-    },
-    status: "",
+    } as loginInfo,
+    status: "not_connected",
     connected: false,
     error: null
 }
 
-const SERVER_URL: string = import.meta.env.VITE_SERVER_URL;
-
-export const login = createAsyncThunk<User, loginInfo, thunkApi>("login", async (user:loginInfo, thunkApi) => {
+export const socketLogin = createAsyncThunk<User, loginInfo, thunkApi>("login", async (user:loginInfo, thunkApi) => {
     return new Promise<User>((resolve, reject) => {
-        const socket:Socket = thunkApi.extra.socket
-        socket.on("connect", () => {
-            console.log("is connected to socket")
-        });
+        const socket = thunkApi.extra.socket;
+
         socket.emit(socketEvents.login, user);
         let err:number;
         socket.on(socketEvents.responseLogin, (payload:loginResponse) => {
             err = payload.reason;
             if (err !== 0) reject(err);
+            // thunkApi.dispatch(setLoginInfo())
             resolve({value: user, connected:payload.state, error:payload.reason });
         })
     })
@@ -53,22 +49,22 @@ const userSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(login.pending, (state, action) => {
-                state.status = "loading";
-                // do action
-            })
-            .addCase(login.fulfilled, (state, action)=> {
-                state.status = "succeeded";
-                state.connected = action.payload.connected;
-                state.value = action.payload.value;
-            })
-            .addCase(login.rejected, (state, action)=> {
-                state.status = "failed";
-                // state.error = search error from code number
-            })
+        .addCase(socketLogin.pending, (state) => {
+            state.status = "connecting";
+            // do action
+        })
+        .addCase(socketLogin.fulfilled, (state, action)=> {
+            state.status = "connecting_success";
+            state.connected = action.payload.connected;
+            state.value = action.payload.value;
+        })
+        .addCase(socketLogin.rejected, (state)=> {
+            state.status = "connecting_failed";
+            // state.error = search error from code number
+        })
     },
 })
 
 // export const { setLoginInfo, unsetLogoutInfo } = userSlice.actions;
 
-export const userReducer = userSlice.reducer
+export const userReducer = userSlice.reducer;

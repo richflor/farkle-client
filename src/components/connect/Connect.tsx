@@ -1,4 +1,4 @@
-import { Container, Stack } from "@mui/material";
+import { Container } from "@mui/material";
 import ConnectForm from "./ConnectForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -7,12 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function Connect () {
   
-  const user = useSelector((state:RootState)=> state.user.value)
+  const app = useSelector((state:RootState)=> state.user)
+  const user = app.value;
+  const connected = app.connected;
+  const error = app.error
   const navigate = useNavigate()
-  // console.log(user)
-  // if (user.name !== ""){
-  //   navigate("/game");
-  // }
+  console.log(app)
+  if (connected) {
+    navigate("/game");
+  }
 
   // useEffect(()=> {
   //   navigate("/game");
@@ -20,18 +23,13 @@ export default function Connect () {
 
   return (
       <Container 
-        maxWidth="xs" 
+        maxWidth="lg" 
         sx={{ 
           height: 1,
           display: "flex",
           alignItems: "center"
         }}>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-        >
           <ConnectForm/>
-        </Stack>
       </Container>
   );
 }
