@@ -1,38 +1,41 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Player, Room, socketEvents, subRoom } from "../models/SocketIo";
 import { thunkApi } from "../store/store";
+import { setPlayerTurn } from "../store/userSlice";
 
-const initGame = {
-    ongoing:false,
-    players:[] as Player[],
-    userTurnToplay: false,
-    status: "idle"
+const initGame = () => {
+    return {
+        ongoing:false,
+        players:[] as Player[],
+        status: "idle"
+    }
 }
-
-export const socketUserReady = createAsyncThunk<void, void, thunkApi>("readyToPlay", async (arg , thunkApi) => {
-    return new Promise<void>((resolve, reject) => {
-        const socket = thunkApi.extra.socket;
-        socket.emit(socketEvents.ready);
-        resolve();
-    })
-})
 
 export const socketUpdateRoom = createAsyncThunk<Room, void, thunkApi>("updateRoom", async (arg , thunkApi) => {
     return new Promise<Room>((resolve, reject) => {
         const socket = thunkApi.extra.socket;
         
         socket.on(socketEvents.gameState, (res:any)=> {
-            console.log("room updated")
             const payload:Room = res.payload
-            // enlever le 0 pour 2nd itération
-            console.log(res);
+            
+            const {user} = thunkApi.getState();
+            const userPlayState = filterPlayers(payload).players.find(player => player.name === user.value.name);
+
+            if (userPlayState?.canPlay) {
+                thunkApi.dispatch(setPlayerTurn(true));
+            } else {
+                thunkApi.dispatch(setPlayerTurn(false));
+            }
+
             resolve(payload);
         })
 
     })
 })
 
-const filterPlayers = (room:Room):[Player[],subRoom] => {
+
+
+const filterPlayers = (room:Room):{players:Player[],subRoom: subRoom} => {
     const players:Player[] = [];
     const subRoom:subRoom = {selectPositionInGame:0, nbUserInRoom:0, inGame:true, nbUserReady:0};
     for (const [key, value] of Object.entries(room)) {
@@ -57,30 +60,35 @@ const filterPlayers = (room:Room):[Player[],subRoom] => {
             }
         }
       }
-    return [players, subRoom];
+    return {players: players, subRoom: subRoom};
 }
 
 const gameSlice = createSlice({
     name: "game",
-    initialState: initGame,
-    reducers:{},
+    initialState: initGame(),
+    reducers:{
+        resetGame: (state) => {
+            state = initGame();
+            console.log("reset game")
+        }
+    },
     extraReducers(builder){
         builder
-        .addCase(socketUpdateRoom.pending, (state) => {
-            state.status = "loading";
-            // do action
-        })
         .addCase(socketUpdateRoom.fulfilled, (state, action)=> {
-            state.status = "idle";
-            const [players, subRoom] = filterPlayers(action.payload);
+            state.status = "game state updated";
+            const {players, subRoom} = filterPlayers(action.payload);
             state.players = players;
             state.ongoing = subRoom.inGame;
+            console.log("room updated")
+            console.log(state)
         })
         .addCase(socketUpdateRoom.rejected, (state)=> {
-            state.status = "failed_loading";
+            state.status = "game state failed updating";
             // state.error = search error from code number
         })
     }
 })
+
+export const { resetGame } = gameSlice.actions
 
 export const gameReducer = gameSlice.reducer;

@@ -19,7 +19,7 @@ export function PlayingInterface ({player}: prop) {
       alignItems: "center",
       justifyContent: "space-between"
     }}>
-      <DiceResults/>
+      <DiceResults scoringDices={player?.scoringDices} remainingDices={player?.remainingDices}/>
       <Dice/>
       <RetrievePoints points={player?.currentScore}/>
     </Box>

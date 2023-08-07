@@ -98,3 +98,48 @@
     }
 
 }
+
+/* classes for rolling dice */
+
+.ellipse {
+    /* background-image: url(../asset/ellipse.png); */
+    background-color: #7137D0;
+    width: 192px;
+    height: 192px;
+    outline: 23px solid #f5f3f3;
+    border-radius: 202px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    user-select: none;
+}
+
+.ellipse:hover {
+    outline: 4px solid #f5f3f3;
+    cursor: pointer;
+    transition: 0.15s;
+    transform: scale(1.12);
+    background-color: #5419b4;
+}
+
+.outlineScale {
+    animation: scaleOutline 1.3s infinite;
+}
+
+@keyframes scaleOutline {
+    0% {
+        outline: 23px solid #f5f3f3;
+    }
+
+    50% {
+        outline: 4px solid #d0d0d0;
+    }
+
+    100% {
+        outline: 23px solid #f5f3f3;
+    }
+}
+
+.dice {
+    width: 33%;
+    height: 33%;
+}

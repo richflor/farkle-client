@@ -1,3 +1,4 @@
+import { Box, Typography, Button } from "@mui/material";
 
 
 export interface IAppProps {
@@ -6,8 +7,20 @@ export interface IAppProps {
 
 export function RetrievePoints ({ points }: IAppProps) {
   return (
-    <div>
-      
-    </div>
+    <Box>
+      <Box sx={{ 
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    }}>
+        <Typography variant="h3" color="initial">{points ? points : '0'}</Typography>
+        <Typography variant="h5" color="initial">Pt</Typography>         
+      </Box>
+      <Button 
+        variant="contained" 
+        color="secondary"
+        >Récuperer mes points
+      </Button>
+    </Box>
   );
 }

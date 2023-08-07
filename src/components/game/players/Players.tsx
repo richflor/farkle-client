@@ -8,13 +8,14 @@ interface prop {
 
 export function Players ({players}: prop) {
   const content = players.map(player => 
-    <PlayerCard score={player.currentScore} name={player.name} ready={player.ready2play} />
+    <PlayerCard key={player.name} score={player.currentScore} name={player.name} ready={player.ready2play} />
   )
   return (
     <Box sx={{ 
-      height: 1/2,
+      height: 1/3,
       width:1,
       display: "flex",
+      flexDirection: "row-reverse",
       flexWrap: "wrap",
       alignItems: "center",
       justifyContent: "space-around"

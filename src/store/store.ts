@@ -6,7 +6,9 @@ import { Socket, io } from "socket.io-client";
 import { gameReducer } from "../slicers/gameSlice";
 
 const SERVER_URL:string = import.meta.env.VITE_SERVER_URL;
-const socket = io(SERVER_URL);
+const socket = io(SERVER_URL, {
+  reconnectionAttempts: 5
+});
 socket.on(socketEvents.connectToServer, () => {
   console.log("is connected to socket");
 });

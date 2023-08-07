@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
-import { RootState } from '../../../store/store';
+import { RootState, AppDispatch } from '../../../store/store';
 import { ReactElement } from 'react';
+import { useDispatch } from 'react-redux';
+import { socketUserReady } from '../../../store/userSlice';
 
 interface prop {
     name:string,
@@ -12,11 +14,14 @@ export function Ready ({ name, ready }: prop) {
 
     const username = useSelector((state:RootState)=> state.user.value.name)
 
+    const gameDispatch = useDispatch<AppDispatch>();
+
     function readyToPlay(e:React.MouseEvent) {
         const target = e.target as HTMLElement;
         if (target.classList.contains("clickReady")) {
             target.classList.remove("clickReady");
-            // socket.emit("clientIsReady");
+            gameDispatch(socketUserReady());
+            console.log("click ready")
         }
     }
 

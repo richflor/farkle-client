@@ -7,11 +7,11 @@ import { checkLength} from '../../farkle'
 import { useDispatch } from 'react-redux'
 import { socketLogin } from '../../store/userSlice'
 import { AppDispatch } from '../../store/store'
-import { socketUserReady } from '../../slicers/gameSlice'
+import { socketUpdateRoom } from '../../slicers/gameSlice'
 
 export default function ConnectForm () {
 
-  const dispatchUser = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [userName, setUsername] = useState<string>("");
   const [roomName, setRoom] = useState<string>("");
@@ -23,7 +23,9 @@ export default function ConnectForm () {
     if ((checkLength(username) && checkLength(room)) === false ) {
       alert("Nom et Room doivent faire 3 lettres ou plus");
     } else {
-      dispatchUser(socketLogin({
+      console.log("we log")
+      dispatch(socketUpdateRoom())
+      dispatch(socketLogin({
         name: username,
         roomId: room,
       }))

@@ -13,12 +13,8 @@ export function Score ({ score }:prop) {
         width: 1, 
         height: 1/2
     }}>
-        <Typography variant="h3" color="initial">
-            {score}
-        </Typography>
-        <Typography variant="h5" color="initial">
-            Pt
-        </Typography>            
+        <Typography variant="h3" color="initial">{score}</Typography>
+        <Typography variant="h5" color="initial">Pt</Typography>            
     </Box>
   );
 }

@@ -14,7 +14,8 @@ export function PlayerCard ({score, name, ready}: Player) {
       height: "35%",
       width:"25%",
       minWidth: "150px",
-      position: "relative"
+      position: "relative",
+      padding: "15px"
     }}>
         <Score score={score} />
         <Ready name={name} ready={ready} /> 

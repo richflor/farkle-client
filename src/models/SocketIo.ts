@@ -9,7 +9,7 @@ export enum socketEvents {
     gameEnd = "gameWin",
     reroll = "oneMoreTime",
     turnLoss = "loseThisOne",
-    takePoints = "myChoice",
+    getPoints = "myChoice",
     gameState = "refreshListStatus",
     ready = "clientIsReady"
 }
