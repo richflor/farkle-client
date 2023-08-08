@@ -20,10 +20,10 @@ export function DiceResults ({ scoringDices, remainingDices}: DicesResults) {
       justifyContent: "space-evenly",
       alignItems: "start"
     }}>
-      <Typography variant="h6" color="initial">Dés restants {nbrRemainingDices ? nbrRemainingDices : 5 }</Typography>
-      {remainingDices && <Dicedisplay dicesArray={remainingDices} />}
-      <Typography variant="h6" color="initial">Dés qui ont scoré {nbrScoringDices ? nbrScoringDices : 0 }</Typography>
-      {scoringDices && <Dicedisplay dicesArray={scoringDices} />}
+      <Typography variant="h6" color="initial">Dés restants : {nbrRemainingDices ? nbrRemainingDices : 6 }</Typography>
+      {remainingDices && <Dicedisplay key={"remainingDices"} dicesArray={remainingDices} />}
+      <Typography variant="h6" color="initial">Dés qui ont scoré : {nbrScoringDices ? nbrScoringDices : 0 }</Typography>
+      {scoringDices && <Dicedisplay key={"scoringDices"} dicesArray={scoringDices} />}
     </Box>
   );
 }

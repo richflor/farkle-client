@@ -14,7 +14,7 @@ export default function Game () {
 
   const room = useSelector((state:RootState)=> state.game);
   const user = useSelector((state:RootState)=> state.user);
-  const currentPlayer = room.players.find(player => player.canPlay);
+  const currentPlayer = room.players.find(player => player.myTurn);
   
   useEffect(()=>{
     dispatch(socketUpdateRoom());
@@ -24,6 +24,7 @@ export default function Game () {
   useEffect(()=>{
     dispatch(socketCanUserPlay());
     console.log("use eff canPlay")
+    console.log(currentPlayer?.name)
   },[currentPlayer])
 
   
@@ -38,7 +39,7 @@ export default function Game () {
       alignItems: "center"
     }}>
       <Players players={room.players}/>
-      <PlayingInterface player={currentPlayer} canPlay={user.canPlay} />
+      <PlayingInterface player={currentPlayer} canPlay={user.canPlay} start={room.ongoing}/>
     </Container>
   );
 }

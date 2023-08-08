@@ -15,7 +15,6 @@ import { RootState } from "./store/store";
 import { useNavigate } from "react-router-dom";
 
 function App() {
-  console.log("App is running");
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -23,12 +22,11 @@ function App() {
   const user = app.value.name;
   const connected = app.connected;
   const error = app.error
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(()=> {
     if(connected) {
       console.log("to game")
-      console.log(app)
       navigate("/game");
     }
   }, [connected])
