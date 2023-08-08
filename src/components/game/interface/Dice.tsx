@@ -1,18 +1,35 @@
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
 import { Box } from "@mui/material";
+import { socketUserPlay } from "../../../store/userSlice";
 
-
-export interface IAppProps {
+interface IAppProps {
+  canPlay: boolean | undefined
 }
 
-export function Dice (props: IAppProps) {
+export function Dice ({ canPlay }: IAppProps) {
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleClick = () => {
+    if (typeof canPlay !== "undefined"){
+      if (canPlay) {
+        dispatch(socketUserPlay(true));
+      } else {
+        alert("Not your turn")
+      }
+    }
+  }
+
   return (
-    <Box 
+    <Box
       className="ellipse outlineScale"
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
       }}
+      onClick={()=> handleClick()}
     >
       <img src="/asset/dice6.png" alt="" className="dice"/>
     </Box>

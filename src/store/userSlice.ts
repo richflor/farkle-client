@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { loginInfo, loginResponse } from "../models/SocketIo";
 import { socketEvents } from "../models/SocketIo";
 import { thunkApi } from "./store";
@@ -17,8 +17,7 @@ const initUser = ()=> {
             name: "",
             roomId: ""
         } as loginInfo,
-        userTurnToplay: false,
-        reroll: false,
+        canPlay: false,
         status: "not_connected",
         connected: false,
         error: null
@@ -48,24 +47,26 @@ export const socketUserReady = createAsyncThunk<void, void, thunkApi>("readyToPl
     })
 })
 
-export const socketGetPoints = createAsyncThunk<void, boolean, thunkApi>("getPoints", async (getPoints , thunkApi) => {
+export const socketUserPlay = createAsyncThunk<void, boolean, thunkApi>("userPlay", async (getPoints , thunkApi) => {
     return new Promise<void>((resolve, reject) => {
         const socket = thunkApi.extra.socket;
 
-        socket.emit(socketEvents.getPoints, { state: getPoints})
+        socket.emit(socketEvents.getPoints, { state: getPoints});
         resolve();
     })
 })
 
-export const socketUserPlay = createAsyncThunk<boolean, void, thunkApi>("userPlay", async (arg, thunkApi) => {
+export const socketCanUserPlay = createAsyncThunk<boolean, void, thunkApi>("userCanPlay", async (arg, thunkApi) => {
     return new Promise<boolean>((resolve, reject) => {
         const socket = thunkApi.extra.socket;
 
         socket.on(socketEvents.reroll, ()=> {
+            console.log("can reroll")
             resolve(true);
         })
 
         socket.on(socketEvents.turnLoss, ()=> {
+            console.log("can't reroll")
             resolve(false);
         })
     })
@@ -81,12 +82,13 @@ const userSlice = createSlice({
         unsetLogoutInfo: (state) => {
             state = initUser();
             console.log("user unset")
-            console.log(initUser())
-            console.log(state)
-            console.log("end user unset")
         },
         setPlayerTurn: (state, action: PayloadAction<boolean>) => {
-            state.userTurnToplay = action.payload;
+            if(action.payload) {
+                state.status = "user can start to play";
+                console.log("can start playing")
+            }
+            state.canPlay = action.payload;
         },
     },
     extraReducers(builder) {
@@ -96,14 +98,15 @@ const userSlice = createSlice({
             // do action
         })
         .addCase(socketLogin.fulfilled, (state, action)=> {
-            state.status = "connecting_success";
+            state.status = "login_success";
             state.connected = action.payload.connected;
             state.value = action.payload.value;
             console.log("user created")
-            console.log(state.value)
+            console.log(current(state))
         })
-        .addCase(socketLogin.rejected, (state)=> {
-            state.status = "connecting_failed";
+        .addCase(socketLogin.rejected, (state, action)=> {
+            state.status = "login_failed";
+            console.log("login error :" + action.error.message)
             // state.error = search error from code number
         })
         .addCase(socketUserReady.fulfilled, (state)=> {
@@ -112,13 +115,13 @@ const userSlice = createSlice({
         .addCase(socketUserReady.rejected, (state)=> {
             state.status = "failed noticing server for user ready";
         })
-        .addCase(socketUserPlay.fulfilled, (state, action)=> {
+        .addCase(socketCanUserPlay.fulfilled, (state, action)=> {
             if (action.payload) {
                 state.status = "user can reroll";
-                state.reroll = true;
+                state.canPlay = true;
             } else {
                 state.status = "is next player turn";
-                state.reroll = false;
+                state.canPlay = false;
             }
         })
     },

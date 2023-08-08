@@ -5,22 +5,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { socketUpdateRoom } from "../slicers/gameSlice";
 import { useEffect } from "react";
+import { socketCanUserPlay } from "../store/userSlice";
 
 
 export default function Game () {
 
   const dispatch = useDispatch<AppDispatch>();
-  
-  useEffect(()=>{
-    dispatch(socketUpdateRoom());
-  })
 
   const room = useSelector((state:RootState)=> state.game);
   const user = useSelector((state:RootState)=> state.user);
-  console.log("game");
-  console.log(room);
-  console.log(user);
   const currentPlayer = room.players.find(player => player.canPlay);
+  
+  useEffect(()=>{
+    dispatch(socketUpdateRoom());
+    console.log("use eff room")
+  },[room])
+
+  useEffect(()=>{
+    dispatch(socketCanUserPlay());
+    console.log("use eff canPlay")
+  },[currentPlayer])
+
   
   return (
     <Container 
@@ -33,7 +38,7 @@ export default function Game () {
       alignItems: "center"
     }}>
       <Players players={room.players}/>
-      <PlayingInterface player={currentPlayer}/>
+      <PlayingInterface player={currentPlayer} canPlay={user.canPlay} />
     </Container>
   );
 }

@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./userSlice";
-import { socketReducer } from "./socketSlice";
 import { socketEvents } from "../models/SocketIo";
 import { Socket, io } from "socket.io-client";
 import { gameReducer } from "../slicers/gameSlice";

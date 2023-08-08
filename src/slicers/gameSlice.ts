@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { Player, Room, socketEvents, subRoom } from "../models/SocketIo";
 import { thunkApi } from "../store/store";
 import { setPlayerTurn } from "../store/userSlice";
@@ -21,7 +21,7 @@ export const socketUpdateRoom = createAsyncThunk<Room, void, thunkApi>("updateRo
             const {user} = thunkApi.getState();
             const userPlayState = filterPlayers(payload).players.find(player => player.name === user.value.name);
 
-            if (userPlayState?.canPlay) {
+            if (userPlayState?.myTurn) {
                 thunkApi.dispatch(setPlayerTurn(true));
             } else {
                 thunkApi.dispatch(setPlayerTurn(false));
@@ -80,7 +80,7 @@ const gameSlice = createSlice({
             state.players = players;
             state.ongoing = subRoom.inGame;
             console.log("room updated")
-            console.log(state)
+            console.log(current(state))
         })
         .addCase(socketUpdateRoom.rejected, (state)=> {
             state.status = "game state failed updating";

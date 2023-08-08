@@ -3,6 +3,14 @@
     box-sizing: border-box
 }
 
+.littleDice {
+    height: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    background: #7137D0;
+    opacity: 0.8;
+}
+
 /* classes for Ready button */
 
 .playerStatus {

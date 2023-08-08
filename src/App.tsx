@@ -39,7 +39,7 @@ function App() {
     if (lastLocation === '/game') {
       dispatch(unsetLogoutInfo());
       dispatch(resetGame())
-      console.log('from game')
+      console.log('back from game')
     }
     setLastLocation(location)
   }, [location])

@@ -16,7 +16,7 @@ export default function ConnectForm () {
   const [userName, setUsername] = useState<string>("");
   const [roomName, setRoom] = useState<string>("");
   const setState = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, callback:Function) => {
-    callback(e.target.value)
+    if (e.target.value !== "") callback(e.target.value);
   }
 
   const login = (username:string, room:string) => {
@@ -24,11 +24,11 @@ export default function ConnectForm () {
       alert("Nom et Room doivent faire 3 lettres ou plus");
     } else {
       console.log("we log")
-      dispatch(socketUpdateRoom())
+      dispatch(socketUpdateRoom());
       dispatch(socketLogin({
         name: username,
         roomId: room,
-      }))
+      }));
     }
   }
 

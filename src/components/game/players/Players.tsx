@@ -8,7 +8,7 @@ interface prop {
 
 export function Players ({players}: prop) {
   const content = players.map(player => 
-    <PlayerCard key={player.name} score={player.currentScore} name={player.name} ready={player.ready2play} />
+    <PlayerCard key={player.name} score={player.scoreTotal} name={player.name} ready={player.ready2play} />
   )
   return (
     <Box sx={{ 
