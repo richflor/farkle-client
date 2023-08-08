@@ -21,9 +21,9 @@ export function DiceResults ({ scoringDices, remainingDices}: DicesResults) {
       alignItems: "start"
     }}>
       <Typography variant="h6" color="initial">Dés restants {nbrRemainingDices ? nbrRemainingDices : 5 }</Typography>
-      {remainingDices && <Dicedisplay dicesArray={remainingDices} />}
+      {remainingDices && <Dicedisplay key={"remainingDices"} dicesArray={remainingDices} />}
       <Typography variant="h6" color="initial">Dés qui ont scoré {nbrScoringDices ? nbrScoringDices : 0 }</Typography>
-      {scoringDices && <Dicedisplay dicesArray={scoringDices} />}
+      {scoringDices && <Dicedisplay key={"scoringDices"} dicesArray={scoringDices} />}
     </Box>
   );
 }

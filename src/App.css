@@ -11,6 +11,34 @@
     opacity: 0.8;
 }
 
+/* classes for player turn */
+
+.myTurn {
+    animation: scaleInOut3 1s infinite;
+    transition: background-color 0.3s;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+@keyframes scaleInOut3 {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.93);
+        outline: 3px solid #7237d04c;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
 /* classes for Ready button */
 
 .playerStatus {

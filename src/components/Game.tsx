@@ -15,17 +15,18 @@ export default function Game () {
   const room = useSelector((state:RootState)=> state.game);
   const user = useSelector((state:RootState)=> state.user);
   const currentPlayer = room.players.find(player => player.canPlay);
+  const gameState = room.status;
+  const userPlay = user.canPlay
   
   useEffect(()=>{
     dispatch(socketUpdateRoom());
     console.log("use eff room")
-  },[room])
+  }, [gameState])
 
-  useEffect(()=>{
+  useEffect(()=> {
     dispatch(socketCanUserPlay());
-    console.log("use eff canPlay")
-  },[currentPlayer])
-
+    console.log("use eff user")
+  }, [userPlay])
   
   return (
     <Container 
@@ -38,7 +39,7 @@ export default function Game () {
       alignItems: "center"
     }}>
       <Players players={room.players}/>
-      <PlayingInterface player={currentPlayer} canPlay={user.canPlay} />
+      <PlayingInterface player={currentPlayer} canPlay={user.canPlay} start={room.ongoing}/>
     </Container>
   );
 }

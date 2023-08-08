@@ -7,8 +7,8 @@ import { Socket } from "socket.io-client";
 // // check documentation root state return of
 // const socket = useSelector((state:any)=> state.socket)
 
-export const checkLength = ((value: string): boolean => {
-  if (value.length >= 3) return true
+export const checkLength = ((value: string, limit:number): boolean => {
+  if (value.length >= limit) return true
   return false
 })
 

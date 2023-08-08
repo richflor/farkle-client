@@ -15,20 +15,22 @@ import { RootState } from "./store/store";
 import { useNavigate } from "react-router-dom";
 
 function App() {
-  console.log("App is running");
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const app = useSelector((state:RootState)=> state.user)
-  const user = app.value.name;
-  const connected = app.connected;
-  const error = app.error
+  const user = useSelector((state:RootState)=> state.user)
+  const username = user.value.name;
+  const connected = user.connected;
+  const error = user.error
   const navigate = useNavigate()
+
+  useEffect(()=> {
+    console.log("App is running");
+  }, [])
 
   useEffect(()=> {
     if(connected) {
       console.log("to game")
-      console.log(app)
       navigate("/game");
     }
   }, [connected])
@@ -40,6 +42,7 @@ function App() {
       dispatch(unsetLogoutInfo());
       dispatch(resetGame())
       console.log('back from game')
+      console.log(username)
     }
     setLastLocation(location)
   }, [location])

@@ -5,18 +5,23 @@ import { socketUserPlay } from "../../../store/userSlice";
 
 interface IAppProps {
   canPlay: boolean | undefined
+  start: boolean | undefined
 }
 
-export function Dice ({ canPlay }: IAppProps) {
+export function Dice ({ canPlay, start }: IAppProps) {
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClick = () => {
-    if (typeof canPlay !== "undefined"){
-      if (canPlay) {
-        dispatch(socketUserPlay(true));
+    if (typeof start !== "undefined") {
+      if (start) {
+        if (canPlay) {
+          dispatch(socketUserPlay(true));
+        } else {
+          alert("Not your turn")
+        }
       } else {
-        alert("Not your turn")
+        alert("Game hasn't started yet")
       }
     }
   }

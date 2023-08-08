@@ -124,6 +124,9 @@ const userSlice = createSlice({
                 state.canPlay = false;
             }
         })
+        .addCase(socketUserPlay.fulfilled, (state)=> {
+            state.status = "user roll";
+        })
     },
 })
 

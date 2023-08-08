@@ -20,7 +20,7 @@ export default function ConnectForm () {
   }
 
   const login = (username:string, room:string) => {
-    if ((checkLength(username) && checkLength(room)) === false ) {
+    if ((checkLength(username, 3) && checkLength(room, 3)) === false ) {
       alert("Nom et Room doivent faire 3 lettres ou plus");
     } else {
       console.log("we log")

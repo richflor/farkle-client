@@ -7,18 +7,23 @@ import { socketUserPlay } from "../../../store/userSlice";
 export interface IAppProps {
   points:number|undefined
   canPlay: boolean | undefined
+  start: boolean | undefined
 }
 
-export function RetrievePoints ({ points, canPlay }: IAppProps) {
+export function RetrievePoints ({ points, canPlay, start }: IAppProps) {
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClick = () => {
-    if (typeof canPlay !== "undefined"){
-      if (canPlay) {
-        dispatch(socketUserPlay(false));
+    if (typeof start !== "undefined") {
+      if (start) {
+        if (canPlay) {
+          dispatch(socketUserPlay(true));
+        } else {
+          alert("Not your turn")
+        }
       } else {
-        alert("Not your turn")
+        alert("Game hasn't started yet")
       }
     }
   }

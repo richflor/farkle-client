@@ -21,8 +21,18 @@ export function Ready ({ name, ready }: prop) {
         if (target.classList.contains("clickReady")) {
             target.classList.remove("clickReady");
             gameDispatch(socketUserReady());
-            console.log("click ready")
+            console.log("click ready");
         }
+    }
+
+    const isUserBG = (playerName:string, userName:string) => {
+        if (playerName === userName) return "primary.main"
+        return ""
+    }
+
+    const isUserTxt = (playerName:string, userName:string) => {
+        if (playerName === userName) return "white"
+        return "initial"
     }
 
     let content:ReactElement;
@@ -35,8 +45,16 @@ export function Ready ({ name, ready }: prop) {
     }
     
     return (
-        <Box sx={{ position: "relative", width: 1, height: 1/2}}>
-            <Typography variant="h4" color="initial">{name}</Typography>
+        <Box sx={{ 
+                position: "relative", 
+                width: 1, 
+                height: 1/2,
+                bgcolor: isUserBG(name, username)
+            }}>
+            <Typography 
+                variant="h4"
+                sx={{ color: isUserTxt(name, username)}}
+            >{name}</Typography>
             {content}
         </Box>
     );

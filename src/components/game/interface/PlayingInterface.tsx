@@ -7,9 +7,10 @@ import { Player } from '../../../models/SocketIo';
 interface prop {
   player:Player | undefined
   canPlay:boolean | undefined
+  start:boolean | undefined
 }
 
-export function PlayingInterface ({player, canPlay}: prop) {
+export function PlayingInterface ({player, canPlay, start}: prop) {
   
   return (
     <Box sx={{
@@ -21,8 +22,8 @@ export function PlayingInterface ({player, canPlay}: prop) {
       justifyContent: "space-between"
     }}>
       <DiceResults scoringDices={player?.scoringDices} remainingDices={player?.remainingDices}/>
-      <Dice canPlay={canPlay} />
-      <RetrievePoints points={player?.currentScore} canPlay={canPlay}/>
+      <Dice canPlay={canPlay} start={start} />
+      <RetrievePoints points={player?.currentScore} canPlay={canPlay} start={start}/>
     </Box>
   );
 }
