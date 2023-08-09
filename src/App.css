@@ -45,16 +45,17 @@
     position: absolute;
     right: 10px;
     top: 10px;
-    font-size: 0.84em;
+    /* font-size: 0.84em; */
     color: #313131;
     background: #8d8d8d6c;
-    padding: 5px 14px;
+    padding: 2px 7px;
     border-radius: 5px;
     user-select: none;
 }
 
 .bgGreen {
-    background: #3fb63f !important;
+    background: #4fe44f !important;
+    opacity: 0.9;
     color: white;
     transform: scale(0.68);
     position: absolute;
