@@ -1,11 +1,12 @@
 import { Container } from "@mui/material";
-import { Players } from "./game/players/Players";
-import { PlayingInterface } from "./game/interface/PlayingInterface";
+import { Players } from "./players/Players";
+import { PlayingInterface } from "./interface/PlayingInterface";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
-import { socketUpdateRoom } from "../slicers/gameSlice";
+import { AppDispatch, RootState } from "../../store";
+import { socketUpdateRoom } from "../../slicers/gameSlice";
 import { useEffect } from "react";
-import { socketCanUserPlay } from "../store/userSlice";
+import { socketCanUserPlay } from "../../slicers/userSlice";
+import { WinModal } from "./WinModal";
 
 
 export default function Game () {
@@ -15,6 +16,7 @@ export default function Game () {
   const room = useSelector((state:RootState)=> state.game);
   const user = useSelector((state:RootState)=> state.user);
   const currentPlayer = room.players.find(player => player.myTurn);
+  const winner = room.winner;
   
   useEffect(()=>{
     dispatch(socketUpdateRoom());
@@ -26,7 +28,6 @@ export default function Game () {
     console.log("use eff canPlay")
     console.log(currentPlayer?.name)
   },[currentPlayer])
-
   
   return (
     <Container 
@@ -40,6 +41,7 @@ export default function Game () {
     }}>
       <Players players={room.players}/>
       <PlayingInterface player={currentPlayer} canPlay={user.canPlay} start={room.ongoing}/>
+      {winner && <WinModal name={winner.name} />}
     </Container>
   );
 }

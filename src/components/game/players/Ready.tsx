@@ -1,8 +1,7 @@
-import { Box, Typography } from '@mui/material';
-import { AppDispatch } from '../../../store/store';
-import { ReactElement } from 'react';
+import { Typography } from '@mui/material';
+import { AppDispatch } from '../../../store';
 import { useDispatch } from 'react-redux';
-import { socketUserReady } from '../../../store/userSlice';
+import { socketUserReady } from '../../../slicers/userSlice';
 import { isUserTxt } from '../../../utilities';
 
 interface prop {

@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
-import { socketUserPlay } from "../../../store/userSlice";
+import { AppDispatch } from "../../../store";
+import { socketUserPlay } from "../../../slicers/userSlice";
 
 
 export interface IAppProps {

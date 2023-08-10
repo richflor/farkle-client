@@ -1,9 +1,4 @@
-import * as React from 'react';
-
-export interface IAppProps {
-}
-
-export function Page404 (props: IAppProps) {
+export function Page404 () {
   return (
     <h1>
         Ressource not Found.

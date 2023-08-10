@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch } from "../../../store";
 import { Box } from "@mui/material";
-import { socketUserPlay } from "../../../store/userSlice";
+import { socketUserPlay } from "../../../slicers/userSlice";
 
 interface IAppProps {
   canPlay: boolean | undefined

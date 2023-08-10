@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Game from './components/Game';
+import Game from './components/game/Game';
 import Connect from './components/connect/Connect';
 import { Page404 } from './components/Page404';
 import "./App.css";
 import { Box } from '@mui/material';
-import { AppDispatch } from './store/store';
+import { AppDispatch } from './store';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { unsetLogoutInfo } from './store/userSlice';
-import { resetGame } from "./slicers/gameSlice";
+import { socketDisconnect, unsetLogoutInfo } from './slicers/userSlice';
+import { resetGame, socketGameEnd } from "./slicers/gameSlice";
 import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
+import { RootState } from "./store";
 import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -20,9 +20,14 @@ function App() {
 
   const app = useSelector((state:RootState)=> state.user)
   const user = app.value.name;
-  const connected = app.connected;
+  let connected = app.connected;
   const error = app.error
   const navigate = useNavigate();
+
+  useEffect(()=> {
+    dispatch(socketGameEnd())
+    console.log("waiting game end");
+  }, [])
 
   useEffect(()=> {
     if(connected) {
@@ -35,6 +40,7 @@ function App() {
   const [lastLocation, setLastLocation] = useState('')
   useEffect(() => {
     if (lastLocation === '/game') {
+      dispatch(socketDisconnect());
       dispatch(unsetLogoutInfo());
       dispatch(resetGame())
       console.log('back from game')

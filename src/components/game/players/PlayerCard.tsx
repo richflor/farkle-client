@@ -2,7 +2,7 @@ import { Card, Typography } from "@mui/material";
 import { Score } from "./Score";
 import { Ready } from "./Ready";
 import { isUserBG, isUserTxt } from "../../../utilities";
-import { RootState } from "../../../store/store";
+import { RootState } from "../../../store";
 import { useSelector } from "react-redux";
 
 interface Player {

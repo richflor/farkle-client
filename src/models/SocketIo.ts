@@ -47,9 +47,9 @@ export interface loginResponse extends socketPayload {
 
 interface endGame extends ServerToClient<endGame> {}
 
-interface endGameState extends socketPayload {
+export interface endGameState extends socketPayload {
     reason:errorCodeType<endGameErrorCode>
-    objOfWinner? : Player
+    payload? : Player
 }
 
 enum endGameErrorCode {

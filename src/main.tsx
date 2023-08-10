@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { Provider } from 'react-redux';
-import { store } from './store/store';
+import { store } from './store.ts';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 
 const theme = createTheme({
   palette: {

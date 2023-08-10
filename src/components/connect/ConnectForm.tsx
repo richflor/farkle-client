@@ -5,8 +5,8 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { checkLength} from '../../utilities'
 import { useDispatch } from 'react-redux'
-import { socketLogin } from '../../store/userSlice'
-import { AppDispatch } from '../../store/store'
+import { socketLogin } from '../../slicers/userSlice'
+import { AppDispatch } from '../../store'
 import { socketUpdateRoom } from '../../slicers/gameSlice'
 
 export default function ConnectForm () {
@@ -23,7 +23,7 @@ export default function ConnectForm () {
     if ((checkLength(username) && checkLength(room)) === false ) {
       alert("Nom et Room doivent faire 3 lettres ou plus");
     } else {
-      console.log("we log")
+      console.log("we log");
       dispatch(socketUpdateRoom());
       dispatch(socketLogin({
         name: username,
