@@ -99,9 +99,9 @@ const userSlice = createSlice({
         setLoginInfo: (state, action: PayloadAction<loginInfo>) => {
             state.value = action.payload;
         },
-        unsetLogoutInfo: (state) => {
+        unsetLogoutInfo: (_state) => {
             console.log("user unset")
-            return state = initUser();
+            return initUser();
         },
         setPlayerTurn: (state, action: PayloadAction<boolean>) => {
             if (action.payload) {

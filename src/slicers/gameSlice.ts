@@ -87,9 +87,9 @@ const gameSlice = createSlice({
     name: "game",
     initialState: initGame(),
     reducers: {
-        resetGame: (state) => {
+        resetGame: (_state) => {
             console.log("reset game");
-            return state = initGame();
+            return initGame();
         }
     },
     extraReducers(builder) {
