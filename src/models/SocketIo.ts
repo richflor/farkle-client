@@ -9,8 +9,9 @@ export enum socketEvents {
     gameEnd = "gameWin",
     reroll = "oneMoreTime",
     turnLoss = "loseThisOne",
-    takePoints = "myChoice",
-    refreshListStatus = "refreshListStatus"
+    getPoints = "myChoice",
+    gameState = "refreshListStatus",
+    ready = "clientIsReady"
 }
 
 interface ClientToServer {}
@@ -46,9 +47,9 @@ export interface loginResponse extends socketPayload {
 
 interface endGame extends ServerToClient<endGame> {}
 
-interface endGameState extends socketPayload {
+export interface endGameState extends socketPayload {
     reason:errorCodeType<endGameErrorCode>
-    objOfWinner? : User
+    payload? : Player
 }
 
 enum endGameErrorCode {
@@ -56,11 +57,18 @@ enum endGameErrorCode {
     noErrorExpectPayload = 1
 }
 
-interface Room {
-    [key:string]:User|boolean|number
+export interface Room {
+    [key:string]:Player|boolean|number
 }
 
-interface User {
+export interface subRoom {
+    selectPositionInGame: number,
+    nbUserInRoom: number, 
+    inGame: boolean,
+    nbUserReady:number
+}
+
+export interface Player {
     idRoom              : string,
     ready2play          : false,
     currentScore        : number,

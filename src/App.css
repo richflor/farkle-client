@@ -2,3 +2,181 @@
     font-family: "Roboto";
     box-sizing: border-box
 }
+
+.littleDice {
+    height: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    background: #7137D0;
+    opacity: 0.8;
+}
+
+/* classes for player turn */
+
+.myTurn {
+    animation: scaleInOut3 1s infinite;
+    transition: background-color 0.3s;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+@keyframes scaleInOut3 {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.93);
+        outline: 3px solid #7237d04c;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+/* classes for Ready button */
+
+.playerStatus {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    /* font-size: 0.84em; */
+    color: #313131;
+    background: #8d8d8d6c;
+    padding: 2px 7px;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.bgGreen {
+    background: #4fe44f !important;
+    opacity: 0.9;
+    color: white;
+    transform: scale(0.68);
+    position: absolute;
+    right: -6px;
+    top: -7px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.nohover {
+    transition: 0.15s;
+    cursor: default;
+}
+
+.nohover:hover {
+    background-color: #8d8d8d6c;
+    cursor: default;
+}
+
+.scaleInOut {
+    animation: scaleInOut 1s infinite;
+    transition: background-color 0.3s;
+
+}
+
+.scaleInOut:hover {
+    cursor: pointer;
+
+    background: #37b294
+}
+
+.scaleInOut2 {
+    animation: scaleInOut2 1s infinite;
+    transition: background-color 0.3s;
+}
+
+.scaleInOut2:hover {
+    cursor: pointer;
+
+    background: #3fb63f69;
+}
+
+@keyframes scaleInOut {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.93);
+        outline: 3px solid #7237d0;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+@keyframes scaleInOut2 {
+    0% {
+        transform: scale(1);
+        transition: all 0.20s;
+        outline: 3px solid #7237d000;
+    }
+
+    50% {
+        transform: scale(0.95);
+        outline: 2px solid #7237d039;
+    }
+
+    100% {
+        transform: scale(1);
+        outline: 3px solid #7237d000;
+    }
+
+}
+
+/* classes for rolling dice */
+
+.ellipse {
+    /* background-image: url(../asset/ellipse.png); */
+    background-color: #7137D0;
+    width: 192px;
+    height: 192px;
+    outline: 23px solid #f5f3f3;
+    border-radius: 202px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    user-select: none;
+}
+
+.ellipse:hover {
+    outline: 4px solid #f5f3f3;
+    cursor: pointer;
+    transition: 0.15s;
+    transform: scale(1.12);
+    background-color: #5419b4;
+}
+
+.outlineScale {
+    animation: scaleOutline 1.3s infinite;
+}
+
+@keyframes scaleOutline {
+    0% {
+        outline: 23px solid #f5f3f3;
+    }
+
+    50% {
+        outline: 4px solid #d0d0d0;
+    }
+
+    100% {
+        outline: 23px solid #f5f3f3;
+    }
+}
+
+.dice {
+    width: 33%;
+    height: 33%;
+}
