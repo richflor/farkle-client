@@ -19,7 +19,7 @@ const initGame = () => {
     } as Game
 }
 
-export const socketUpdateRoom = createAsyncThunk<Room, void, thunkApi>("updateRoom", async (arg, thunkApi) => {
+export const socketUpdateRoom = createAsyncThunk<Room, void, thunkApi>("updateRoom", async (_arg, thunkApi) => {
     return new Promise<Room>((resolve) => {
         const socket = thunkApi.extra.socket;
 
@@ -41,7 +41,7 @@ export const socketUpdateRoom = createAsyncThunk<Room, void, thunkApi>("updateRo
     })
 })
 
-export const socketGameEnd = createAsyncThunk<Player, void, thunkApi>("gameEnd", async (arg, thunkApi) => {
+export const socketGameEnd = createAsyncThunk<Player, void, thunkApi>("gameEnd", async (_arg, thunkApi) => {
     return new Promise<Player>((resolve, reject) => {
         const socket = thunkApi.extra.socket;
 

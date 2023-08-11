@@ -51,8 +51,8 @@ export const socketLogin = createAsyncThunk<User, loginInfo, thunkApi>("login", 
     })
 })
 
-export const socketUserReady = createAsyncThunk<void, void, thunkApi>("readyToPlay", async (arg, thunkApi) => {
-    return new Promise<void>((resolve, reject) => {
+export const socketUserReady = createAsyncThunk<void, void, thunkApi>("readyToPlay", async (_arg, thunkApi) => {
+    return new Promise<void>((resolve, _reject) => {
         const socket = thunkApi.extra.socket;
         socket.emit(socketEvents.ready);
         resolve();
@@ -60,7 +60,7 @@ export const socketUserReady = createAsyncThunk<void, void, thunkApi>("readyToPl
 })
 
 export const socketUserPlay = createAsyncThunk<void, boolean, thunkApi>("userPlay", async (getPoints, thunkApi) => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, _reject) => {
         const socket = thunkApi.extra.socket;
 
         socket.emit(socketEvents.getPoints, { state: getPoints });
@@ -68,8 +68,8 @@ export const socketUserPlay = createAsyncThunk<void, boolean, thunkApi>("userPla
     })
 })
 
-export const socketCanUserPlay = createAsyncThunk<boolean, void, thunkApi>("userCanPlay", async (arg, thunkApi) => {
-    return new Promise<boolean>((resolve, reject) => {
+export const socketCanUserPlay = createAsyncThunk<boolean, void, thunkApi>("userCanPlay", async (_arg, thunkApi) => {
+    return new Promise<boolean>((resolve, _reject) => {
         const socket = thunkApi.extra.socket;
 
         socket.on(socketEvents.reroll, () => {
@@ -84,10 +84,11 @@ export const socketCanUserPlay = createAsyncThunk<boolean, void, thunkApi>("user
     })
 })
 
-export const socketDisconnect = createAsyncThunk<void, void, thunkApi>("disconnect", async (arg, thunkApi) => {
-    return new Promise<void>((resolve, reject) => {
+export const socketDisconnect = createAsyncThunk<void, void, thunkApi>("disconnect", async (_arg, thunkApi) => {
+    return new Promise<void>((resolve, _reject) => {
         const socket = thunkApi.extra.socket;
         socket.disconnect();
+        resolve();
     })
 })
 
