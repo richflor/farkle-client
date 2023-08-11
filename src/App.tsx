@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Game from './components/game/Game';
 import Connect from './components/connect/Connect';
 import { Page404 } from './components/Page404';
@@ -19,9 +19,9 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   const app = useSelector((state:RootState)=> state.user)
-  const user = app.value.name;
+  // const user = app.value.name;  
   let connected = app.connected;
-  const error = app.error
+  // const error = app.error
   const navigate = useNavigate();
 
   useEffect(()=> {

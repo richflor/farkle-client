@@ -25,15 +25,6 @@ export function Ready ({ name, ready, userName }: prop) {
         }
     }
 
-    let content:JSX.Element
-    if (ready) {
-        content = <Typography variant="button" color="initial" className='playerStatus clickReady bgGreen'>Prêt 💪</Typography>
-    } else if (userName === name) {
-        content = <Typography variant="button" sx={{ color: isUserTxt(name, userName)}} className='playerStatus scaleInOut clickReady' onClick={(e)=> {readyToPlay(e) }}>Attente 💤</Typography>
-    } else {
-        content = <Typography variant="button" color="initial" className='playerStatus scaleInOut2 clickReady nohover'>Attente 💤</Typography>
-    }
-
     let className = "";
     if (ready) {
         className = "playerStatus clickReady bgGreen";

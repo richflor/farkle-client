@@ -14,16 +14,7 @@ export enum socketEvents {
     ready = "clientIsReady"
 }
 
-interface ClientToServer {}
-
-interface ServerToClient<I> {
-    reason:errorCode,
-    payload:I
-}
-
 export interface socketPayload {}
-
-type errorCode = number;
 
 type errorCodeType<E> = E
 
@@ -44,8 +35,6 @@ export interface loginResponse extends socketPayload {
     state:boolean,
     reason:errorCodeType<loginErrorCode>
 }
-
-interface endGame extends ServerToClient<endGame> {}
 
 export interface endGameState extends socketPayload {
     reason:errorCodeType<endGameErrorCode>
@@ -81,8 +70,4 @@ export interface Player {
     nbDice              : number,
     remainingDices     : number[],
     scoringDices        : number[],
-}
-
-interface myTurnOrNot {
-    state:boolean
 }

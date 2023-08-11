@@ -20,7 +20,7 @@ const initGame = () => {
 }
 
 export const socketUpdateRoom = createAsyncThunk<Room, void, thunkApi>("updateRoom", async (arg, thunkApi) => {
-    return new Promise<Room>((resolve, reject) => {
+    return new Promise<Room>((resolve) => {
         const socket = thunkApi.extra.socket;
 
         socket.on(socketEvents.gameState, (res: any) => {
@@ -110,7 +110,7 @@ const gameSlice = createSlice({
                 state.status = "game ended properly";
                 state.winner = action.payload;
             })
-            .addCase(socketGameEnd.rejected, (state, action) => {
+            .addCase(socketGameEnd.rejected, (state) => {
                 state.status = "game ended prematurely";
             })
     }
